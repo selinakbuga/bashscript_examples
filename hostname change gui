@@ -1,0 +1,22 @@
+hostname_change() {
+hostname_change_fonk() {
+hostname=$(cat /etc/hostname)
+sed -i "s/$hostname/$newhostname/g" /etc/hosts 1>>$log 2>>$hata_log
+sed -i "s/$hostname/$newhostname/g" /etc/hostname 1>>$log 2>>$hata_log
+}
+dialog --title "Ahtapot kickstarted çalıştırıldı" --backtitle "Ahtapot BSGS Kickstart v1.0" --yesno "Sunucu adınız $hostname  Sunucu adınızı değiştirmek istiyor musunuz?" 10 70
+response=$?
+case $response in
+   0) dialog --inputbox "Yeni sunucu isminizi giriniz." 10 70  2>> /tmp/kickstart.newhostname.tmp.$$
+      retval=$?
+      newhostname=`cat /tmp/kickstart.newhostname.tmp.$$`
+      case $retval in
+         0) hostname_change_fonk ${newhostname} ;;
+         1) dialog --title "Ahtapot kickstarted çalıştırıldı" --backtitle "Ahtapot BSGS Kickstart v1.0" --infobox "Sunucu adınız değiştirilmedi. $hostname " 10 70 ;;
+      esac
+   ;;
+   1) dialog --title "Ahtapot kickstarted çalıştırıldı" --backtitle "Ahtapot BSGS Kickstart v1.0" --msgbox "Sunucu adınız değiştirilmedi." 10 70 ;;
+   255) dialog --title "Ahtapot kickstarted çalıştırıldı" --backtitle "Ahtapot BSGS Kickstart v1.0" --msgbox "Çıkış yaptınız.." 10 70 ;;
+esac
+rm -rf /tmp/kickstart.newhostname.tmp.$$
+}
