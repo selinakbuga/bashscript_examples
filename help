@@ -1,0 +1,9 @@
+Help() {
+cat <<-END
+Kullanım:       ./script.sh [opsiyonlar]
+   -h | --help		yardım görüntüle
+   -i | --info		bilgi görüntüle
+   -V | --version	sürüm bilgisi görüntüle
+
+END
+}
