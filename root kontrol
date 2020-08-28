@@ -1,0 +1,6 @@
+rootkontrol(){
+if ! [ $(id -u) = 0 ]; then
+   echo "Root olarak çalıştırınız."
+   exit 1
+fi
+}
